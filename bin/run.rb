@@ -43,5 +43,12 @@ loop do
     end
     Search::SearchRunner.new(args[1..-1]).run
     next
+  when 'search_by'
+    if args.size < 3
+      puts "Please provide a search query. Usage: search_by <query>"
+      next
+    end
+    Search::SearchRunner.new(args[2..-1]).run(args[1])
+    next
   end
 end 

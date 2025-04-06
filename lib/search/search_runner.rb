@@ -6,15 +6,15 @@ module Search
       @query = args.join(' ')
     end
 
-    def run
+    def run(search_by = "full_name")
       if @query.empty?
         puts "Please provide a search string."
         return
       end
 
       store = SearchUser.new
-      results = store.search(@query)
-      if results.empty?
+      results = store.search(@query, search_by)
+      if results.nil? || results.empty?
         puts "No results found for \"#{@query}\""
       else
         results.each do |result|

@@ -25,9 +25,9 @@ RSpec.describe Search::SearchRunner do
     context 'when query is not empty' do
       it 'displays formatted results' do
         runner = described_class.new(['john'])
-        allow(mock_search).to receive(:search).with('john').and_return(sample_results)
+        allow(mock_search).to receive(:search).with('john', 'full_name').and_return(sample_results)
 
-        expect { runner.run }.to output(
+        expect { runner.run('full_name') }.to output(
           "ID: 1, Name: John Doe, Email: john@example.com\nID: 2, Name: Bob Johnson, Email: bob@example.org\n"
         ).to_stdout
       end
@@ -36,8 +36,18 @@ RSpec.describe Search::SearchRunner do
     context 'when no results are found' do
       it 'shows no results message' do
         runner = described_class.new(['nonexistent'])
-        allow(mock_search).to receive(:search).with('nonexistent').and_return([])
-        expect { runner.run }.to output("No results found for \"nonexistent\"\n").to_stdout
+        allow(mock_search).to receive(:search).with('nonexistent', 'full_name').and_return([])
+        expect { runner.run('full_name') }.to output("No results found for \"nonexistent\"\n").to_stdout
+      end
+    end
+
+    context 'when search by email' do
+      it 'displays formatted results' do
+        runner = described_class.new(['john@example.com'])
+        allow(mock_search).to receive(:search).with('john@example.com', 'email').and_return(sample_results)
+        expect { runner.run('email') }.to output(
+          "ID: 1, Name: John Doe, Email: john@example.com\nID: 2, Name: Bob Johnson, Email: bob@example.org\n"
+        ).to_stdout
       end
     end
   end
