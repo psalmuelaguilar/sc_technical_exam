@@ -13,4 +13,4 @@
 
 ## Future Improvements
 - Elasticsearch implementation for full text search and to index search for faster search and querying of the json file
-- we need to create a search_by <field> <query> to handle any search not just by name
+- we need to create a search_by <field> <query> to handle any search not just by name - (tried adding this feature)
